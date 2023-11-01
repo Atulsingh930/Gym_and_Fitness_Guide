@@ -15,9 +15,19 @@ const SearchExercise = ({setExercises,bodyPart,setBodyPart}) => {
     fetchExercisesData()
   }, [])
   
+  function isCorrectSearch(search){
+    let bodypart = ["back", "cardio", "chest", "lower arms", "lower legs", "neck", "shoulders", "upper arms", "upper legs", "waist"];
+    if (bodypart.includes(search)) {
+      return true
+    } else{
+      return false
+    }
+  }
+
   const handleSearch = async()=>{
-      if(search){
-        const exercisesData = await fetchData('https://exercisedb.p.rapidapi.com/exercises',exerciseOptions);
+      if(search && isCorrectSearch(search)){
+        console.log(search)
+        const exercisesData = await fetchData(`https://exercisedb.p.rapidapi.com/exercises/bodyPart/${search}`,exerciseOptions);
         console.log(exercisesData);
         const searchedExercises = exercisesData.filter((exercise)=>exercise.name.toLowerCase().includes(search)
         ||exercise.target.toLowerCase().includes(search)
